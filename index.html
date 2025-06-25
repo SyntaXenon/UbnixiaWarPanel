@@ -132,28 +132,28 @@
     p {
       margin: 4px 0;
     }
-
-    .news-ticker {
-      width: 100%;
-      background: #222;
-      color: white;
+    
+    #news-ticker {
       overflow: hidden;
       white-space: nowrap;
-      box-sizing: border-box;
-      padding: 10px 0;
+      background: #222;
+      color: white;
+      padding: 8px 0;
+      font-size: 14px;
       font-family: 'Libre Caslon Text', serif;
-      font-size: 16px;
+      border-top: 2px solid #444;
+      border-bottom: 2px solid #444;
     }
 
-    .news-ticker span {
+    #ticker-text {
       display: inline-block;
       padding-left: 100%;
-      animation: ticker-scroll 15s linear infinite;
+      animation: scroll-left 25s linear infinite;
     }
 
-    @keyframes ticker-scroll {
+    @keyframes scroll-left {
       0% {
-        transform: translateX(0);
+        transform: translateX(0%);
       }
       100% {
         transform: translateX(-100%);
@@ -213,8 +213,8 @@
   </div>
   <div class="spacer-xs"></div>
   <div class="spacer-xs"></div>
-  <div class="news-ticker">
-    <span>Latest updates: Siege of Neibelen intensifies &nbsp; • &nbsp; Charge of Drejdelo gains momentum &nbsp; • &nbsp; Battle of Naevalden ongoing</span>
+  <div id="news-ticker">
+    <div id="ticker-text">Loading war updates...</div>
   </div>
 
   <script>
@@ -252,6 +252,16 @@
         <p><strong>null: </strong> null</p>
         <p><strong>null: </strong> null</p>
       `;
+    });
+    fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
+    .then(response => response.text())
+    .then(data => {
+      const updates = data.trim().split('\n').join(' • ');
+      document.getElementById('ticker-text').innerText = updates;
+    })
+    .catch(err => {
+      document.getElementById('ticker-text').innerText = "Failed to load war updates.";
+      console.error(err);
     });
   </script>
 </body>

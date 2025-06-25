@@ -1,14 +1,258 @@
 <!DOCTYPE html>
-  <head>
-    <title>Ubnixia War Panel</title>
-  </head>
-  <body>
-    <h1>crazy</h1>
-    <div id="map-container" style="position: relative; width: 800px; height: 600px;">
-      <img src="remnadianwarmap.png" alt="Remnadian War Map" style="width: 100%; height: 100%;">
-  
-      <!-- Dot example -->
-      <div class="battle-dot" style="position: absolute; top: 200px; left: 350px; width: 15px; height: 15px; background: red; border-radius: 50%;"></div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ubnixia War Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Libre Caslon Text', serif;
+      margin: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #main-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-top: 20px;
+    }
+
+    #map-container {
+      position: relative;
+      width: 1000px;
+      max-width: 100%;
+    }
+
+    #map-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .battle-dot-neibelen,
+    .battle-dot-drejdelo,
+    .battle-dot-naevalden {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: red;
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+    }
+
+    .battle-dot-neibelen {
+      top: 25.5%;
+      left: 60%;
+    }
+
+    .battle-dot-drejdelo {
+      top: 33%;
+      left: 67%;
+    }
+
+    .battle-dot-naevalden {
+      top: 68%;
+      left: 53%;
+    }
+
+    #battle-box {
+      border: 1px solid #ccc;
+      padding: 12px;
+      width: 300px;
+      background-color: #f8f8f8;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #battle-box h2 {
+      margin-top: 0;
+    }
+
+    #info-box {
+      border: 1px solid #ccc;
+      padding: 12px;
+      width: 400px;
+      background-color: #f8f8f8;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #info-box h2 {
+      margin-top: 0;
+    }
+
+    .info-columns {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .info-columns .side {
+      width: 48%;
+      background: #f0f0f0;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column; /* stack content vertically */
+    }
+    .centered {
+      text-align: center;
+    }
+
+    .fed-flag-icon {
+      margin-top: auto; /* pushes the flag to the bottom */
+      max-width: 170px;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .flag-icon {
+      margin-top: auto; /* pushes the flag to the bottom */
+      max-width: 150px;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .spacer-xs {
+      height: 20px;
+    }
+
+    p {
+      margin: 4px 0;
+    }
+
+    .news-ticker {
+      width: 100%;
+      background: #222;
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      padding: 10px 0;
+      font-family: 'Libre Caslon Text', serif;
+      font-size: 16px;
+    }
+
+    .news-ticker span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker-scroll 15s linear infinite;
+    }
+
+    @keyframes ticker-scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>The Remnadian War</h1>
+
+  <div id="main-container">
+    <div id="map-container">
+      <img src="remnadianwarmap.png" alt="Remnadian War Map" />
+      <div class="battle-dot-neibelen" title="Siege of Neibelen"></div>
+      <div class="battle-dot-drejdelo" title="Charge of Drejdelo"></div>
+      <div class="battle-dot-naevalden" title="Battle of Naevalden"></div>
     </div>
-  </body>
+
+    <div id="battle-box">
+      <h2>Battle Info</h2>
+      <hr>
+      <p>Click a red dot to view the battle details here.</p>
+    </div>
+
+    <div id="info-box">
+      <h2>The Remnadian War</h2>
+      <hr>
+      <p><strong>Date:</strong> 2/4/1309 – Today</p>
+      <p class="centered"><strong>- Belligerents -</strong></p>
+
+      <div class="info-columns">
+        <div class="side">
+          <p><strong>The Federate Dominions and Surrounding Regions of the Sovereign United Realm.</strong></p>
+          <p>(The United Federation)</p>
+          <img src="unitedfederationflag.png" alt="United Federation Flag" class="fed-flag-icon" />
+        </div>
+        <div class="side">
+          <p><strong>Remnadian League of National Resurgence.</strong></p>
+          <div class="spacer-xs"></div>
+          <p>(The Remnadian Insurgency)</p>
+          <img src="remnadianflag.png" alt="Remnadian Flag" class="flag-icon" />
+        </div>
+      </div>
+      <p class="centered"><strong>- Ongoing Battles -</strong></p>
+      <div class="info-columns">
+        <div class="side">
+          <p class="centered"><strong>Federate Offensives</strong></p>
+          <p>Charge of Drejdelo</p>
+        </div>
+        <div class="side">
+          <p class="centered"><strong>Remnadian Offensives</strong></p>
+          <p>Siege of Neibelen</p>
+          <p>Battle of Naevalden</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer-xs"></div>
+  <div class="spacer-xs"></div>
+  <div class="news-ticker">
+    <span>Latest updates: Siege of Neibelen intensifies &nbsp; • &nbsp; Charge of Drejdelo gains momentum &nbsp; • &nbsp; Battle of Naevalden ongoing</span>
+  </div>
+
+  <script>
+    const infoBox = document.getElementById('info-box');
+    const battleBox = document.getElementById('battle-box');
+
+    document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
+      battleBox.innerHTML = `
+        <h2>Siege of Neibelen</h2>
+        <hr>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+      `;
+    });
+
+    document.querySelector('.battle-dot-drejdelo').addEventListener('click', () => {
+      battleBox.innerHTML = `
+        <h2>Charge of Drejdelo</h2>
+        <hr>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+      `;
+    });
+
+    document.querySelector('.battle-dot-naevalden').addEventListener('click', () => {
+      battleBox.innerHTML = `
+        <h2>Battle of Naevalden</h2>
+        <hr>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+        <p><strong>null: </strong> null</p>
+      `;
+    });
+  </script>
+</body>
 </html>

@@ -256,7 +256,7 @@
     fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
     .then(response => response.text())
     .then(data => {
-      const updates = data.trim().split('\n').join(' • ');
+      const updates = data.trim().split('\n').join('ㅤㅤ•ㅤㅤ');
       document.getElementById('ticker-text').innerText = updates;
     })
     .catch(err => {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ubnixia War Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Libre Caslon Text', serif;
@@ -11,7 +11,34 @@
     }
 
     h1 {
-      margin-bottom: 10px;
+      margin: 0;
+    }
+
+    .vollensfreit {
+      max-width: 60px;
+      height: auto;
+      display: block;
+    }
+
+    #title-container {
+      display: flex;
+      align-items: center; /* vertically center the image and title */
+      gap: 12px; /* space between image and title */
+    }
+
+    #quote {
+      position: fixed;       /* fixed position stays on screen while scrolling */
+      top: 20px;             /* distance from top */
+      right: 20px;           /* distance from right */
+      max-width: 300px;      /* optional max width */
+      font-size: 20px;
+      font-family: 'Libre Caslon Text', serif;
+      color: #000000;
+      background-color: #f4f4f4;
+      padding: 10px 15px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      z-index: 1500;         /* make sure it sits above other content */
     }
 
     #main-container {
@@ -46,20 +73,9 @@
       transform: translate(-50%, -50%);
     }
 
-    .battle-dot-neibelen {
-      top: 25.5%;
-      left: 60%;
-    }
-
-    .battle-dot-drejdelo {
-      top: 33%;
-      left: 67%;
-    }
-
-    .battle-dot-naevalden {
-      top: 68%;
-      left: 53%;
-    }
+    .battle-dot-neibelen { top: 25.5%; left: 60%; }
+    .battle-dot-drejdelo { top: 33%; left: 67%; }
+    .battle-dot-naevalden { top: 68%; left: 53%; }
 
     #battle-box {
       border: 1px solid #ccc;
@@ -101,14 +117,15 @@
       border-radius: 4px;
       font-size: 13px;
       display: flex;
-      flex-direction: column; /* stack content vertically */
+      flex-direction: column;
     }
+
     .centered {
       text-align: center;
     }
 
     .fed-flag-icon {
-      margin-top: auto; /* pushes the flag to the bottom */
+      margin-top: auto;
       max-width: 170px;
       height: auto;
       display: block;
@@ -117,7 +134,7 @@
     }
 
     .flag-icon {
-      margin-top: auto; /* pushes the flag to the bottom */
+      margin-top: auto;
       max-width: 150px;
       height: auto;
       display: block;
@@ -129,13 +146,24 @@
       height: 20px;
     }
 
-    p {
-      margin: 4px 0;
+    p { margin: 4px 0; }
+
+    #counters {
+      margin-top: 15px;
+      background: #e0e0e0;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      user-select: none;
     }
-    
+
+    #counters > div {
+      margin-bottom: 12px;
+    }
+
     #news-ticker {
       overflow: hidden;
-      white-space: nowrap;
       background: #222;
       color: white;
       padding: 8px 0;
@@ -143,27 +171,44 @@
       font-family: 'Libre Caslon Text', serif;
       border-top: 2px solid #444;
       border-bottom: 2px solid #444;
+      position: relative;
     }
 
-    #ticker-text {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 25s linear infinite;
+    #ticker-track {
+      display: flex;
+      width: max-content;
+    }
+
+    #ticker-track.animate {
+      animation: scroll-left 15s linear infinite;
+    }
+
+    #ticker-text,
+    #ticker-text-duplicate {
+      white-space: nowrap;
+      padding-right: 100px;
     }
 
     @keyframes scroll-left {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
     }
+
+    
   </style>
 </head>
 <body>
-  <h1>The Remnadian War</h1>
-
+  <audio id="bg-music" autoplay loop muted>
+    <source src="song.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+  <div id="title-container">
+    <img src="vollensfreit.png" alt="Remnadian War Map" class="vollensfreit"/>
+    <h1>The Remnadian War</h1>
+  </div>
+  <div id="quote">
+  <em>"FEDERATE! RISE UP!"</em>
+  </div>
   <div id="main-container">
     <div id="map-container">
       <img src="remnadianwarmap.png" alt="Remnadian War Map" />
@@ -174,13 +219,13 @@
 
     <div id="battle-box">
       <h2>Battle Info</h2>
-      <hr>
+      <hr />
       <p>Click a red dot to view the battle details here.</p>
     </div>
 
     <div id="info-box">
       <h2>The Remnadian War</h2>
-      <hr>
+      <hr />
       <p><strong>Date:</strong> 2/4/1309 – Today</p>
       <p class="centered"><strong>- Belligerents -</strong></p>
 
@@ -197,6 +242,7 @@
           <img src="remnadianflag.png" alt="Remnadian Flag" class="flag-icon" />
         </div>
       </div>
+
       <p class="centered"><strong>- Ongoing Battles -</strong></p>
       <div class="info-columns">
         <div class="side">
@@ -209,60 +255,192 @@
           <p>Battle of Naevalden</p>
         </div>
       </div>
+
+      <p class="centered"><strong>- Casualties -</strong></p>
+      <div class="info-columns">
+        <div class="side">
+          <p class="centered"><strong>Federate Casualties</strong></p>
+          <p>Combatant Casualties: </p>
+          <p><span id="mil-deaths-total">0</span></p>
+          <p>Civilian Casualties: </p>
+          <p><span id="civ-deaths-total">0</span></p>
+        </div>
+        <div class="side">
+          <p class="centered"><strong>Remnadian Casualties</strong></p>
+          <p>Combatant Casualties:</p>
+          <p>~70,000</p>
+          <p>Civilian Casualties:</p>
+          <p>~9,000</p>
+        </div>
+      </div>
+      <p class="centered"><strong>- Strength -</strong></p>
+      <div class="info-columns">
+        <div class="side">
+          The United Federation: <span id="deployments-total"></span>
+        </div>
+        <div class="side">
+          The Remnadian Insurgency: ~170,000
+        </div>
+      </div>
+
+      <div id="counters" style="display: none;">
+        <span id="mil-deaths-neibelen"></span>
+        <span id="mil-deaths-drejdelo"></span>
+        <span id="mil-deaths-naevalden"></span>
+        <span id="mil-deaths-elsewhere"></span>
+        <span id="mil-deaths-total"></span>
+
+        <span id="civ-deaths-neibelen"></span>
+        <span id="civ-deaths-drejdelo"></span>
+        <span id="civ-deaths-naevalden"></span>
+        <span id="civ-deaths-elsewhere"></span>
+        <span id="civ-deaths-total"></span>
+
+        <span id="deployments-neibelen"></span>
+        <span id="deployments-drejdelo"></span>
+        <span id="deployments-naevalden"></span>
+        <span id="deployments-elsewhere"></span>
+        <span id="deployments-total"></span>
+      </div>
     </div>
   </div>
+
   <div class="spacer-xs"></div>
   <div class="spacer-xs"></div>
+
   <div id="news-ticker">
-    <div id="ticker-text">Loading war updates...</div>
+    <div id="ticker-track">
+      <div id="ticker-text"></div>
+      <div id="ticker-text-duplicate"></div>
+    </div>
   </div>
 
-  <script>
-    const infoBox = document.getElementById('info-box');
-    const battleBox = document.getElementById('battle-box');
+<script>
+  const baselineDate = new Date('2025-06-25T03:07:00Z').getTime();
+  const baselineMilDeathsTotal = 9294;
+  const baselineCivDeathsTotal = 2394;
+  const baselineDeploymentsTotal = 123279;
 
-    document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
-      battleBox.innerHTML = `
-        <h2>Siege of Neibelen</h2>
-        <hr>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-      `;
-    });
+  const milDeathPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
+  const civDeathPercent = { neibelen: 0.75, drejdelo: 0.03, naevalden: 0.10, elsewhere: 0.12 };
+  const deploymentPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
 
-    document.querySelector('.battle-dot-drejdelo').addEventListener('click', () => {
-      battleBox.innerHTML = `
-        <h2>Charge of Drejdelo</h2>
-        <hr>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-      `;
-    });
+  const deploymentInterval = 2.27;
+  const milDeathInterval = 8.38;
+  const civDeathInterval = 16.28;
 
-    document.querySelector('.battle-dot-naevalden').addEventListener('click', () => {
+  function currentCount(baselineCount, interval) {
+    const now = Date.now();
+    const elapsedSec = (now - baselineDate) / 1000;
+    return baselineCount + Math.floor(elapsedSec / interval);
+  }
+
+  function updateCounters() {
+    const milDeathsTotal = currentCount(baselineMilDeathsTotal, milDeathInterval);
+    const civDeathsTotal = currentCount(baselineCivDeathsTotal, civDeathInterval);
+    const deploymentsTotal = currentCount(baselineDeploymentsTotal, deploymentInterval);
+
+    const [mil, civ, dep] = [milDeathsTotal, civDeathsTotal, deploymentsTotal];
+
+    const set = (id, val) => document.getElementById(id).textContent = val.toLocaleString();
+
+    for (const type of ['mil', 'civ', 'deployments']) {
+      const total = { mil, civ, deployments: dep }[type];
+      const percent = { mil: milDeathPercent, civ: civDeathPercent, deployments: deploymentPercent }[type];
+
+      let sum = 0;
+      for (const loc of ['neibelen', 'drejdelo', 'naevalden']) {
+        const val = Math.floor(total * percent[loc]);
+        set(`${type}-deaths-${loc}`.replace('deployments-deaths', 'deployments'), val);
+        sum += val;
+      }
+      set(`${type}-deaths-elsewhere`.replace('deployments-deaths', 'deployments'), total - sum);
+      set(`${type}-deaths-total`.replace('deployments-deaths', 'deployments'), total);
+    }
+  }
+
+  setInterval(updateCounters, 1000);
+  updateCounters();
+
+  let currentBattleInterval = null;
+  const battleBox = document.getElementById('battle-box');
+
+  function showLiveBattleData(battleName, ids, staticInfo) {
+    if (currentBattleInterval) clearInterval(currentBattleInterval);
+    function updateBox() {
       battleBox.innerHTML = `
-        <h2>Battle of Naevalden</h2>
+        <h2>${battleName}</h2>
         <hr>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
-        <p><strong>null: </strong> null</p>
+        <p><strong>Duration:</strong> ${staticInfo.duration}</p>
+        <p><strong>Military Deaths:</strong> ${document.getElementById(ids.mil).textContent}</p>
+        <p><strong>Civilian Deaths:</strong> ${document.getElementById(ids.civ).textContent}</p>
+        <p><strong>Federate Deployments:</strong> ${document.getElementById(ids.dep).textContent}</p>
+        <p><strong>Mobilized Divisions:</strong> ${staticInfo.commander}</p>
+        <p><strong>Summary:</strong> ${staticInfo.summary}</p>
       `;
+    }
+    updateBox();
+    currentBattleInterval = setInterval(updateBox, 1000);
+  }
+
+  document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
+    showLiveBattleData("Siege of Neibelen", {
+      mil: "mil-deaths-neibelen",
+      civ: "civ-deaths-neibelen",
+      dep: "deployments-neibelen"
+    }, {
+      duration: "45 days",
+      commander: "Gen. Alren Valtros",
+      summary: "A prolonged siege where Remnadian forces surrounded Neibelen to cut off Federate supply lines."
     });
-    fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
-    .then(response => response.text())
+  });
+
+  document.querySelector('.battle-dot-drejdelo').addEventListener('click', () => {
+    showLiveBattleData("Charge of Drejdelo", {
+      mil: "mil-deaths-drejdelo",
+      civ: "civ-deaths-drejdelo",
+      dep: "deployments-drejdelo"
+    }, {
+      duration: "38 days",
+      commander: "Col. Renn Orlan",
+      summary: "A long lasting battle with more than 23 repeated charges against Remnadian positions, it has been the main focus of Federate plans due to its Nuclear Powerplants, it is the main source of power to the Aestovian Dominion's main southern conscription grounds where more than 75% of all combatants of the entire war were mobilized from. It has been evacuated as soon as the Remnadian forces targeted it."
+    });
+  });
+
+  document.querySelector('.battle-dot-naevalden').addEventListener('click', () => {
+    showLiveBattleData("Battle of Naevalden", {
+      mil: "mil-deaths-naevalden",
+      civ: "civ-deaths-naevalden",
+      dep: "deployments-naevalden"
+    }, {
+      duration: "21 days",
+      commander: "23rd Federate Armoured Division Til, 2nd Federate Infantry Division Aes Twin I, 2nd Federate Infantry Division Aes Twin II, 14th Federate Light Infantry Division Yhe",
+      summary: "A slow-moving trench warfare front with nightime attacks, slow decisive attacks take hold in this battleground, originally an attack to cause a distraction, it became an actual contested region after heavy Remnadian reinforcements arrived, albeit seen as a smaller front compared to the northern struggle."
+    });
+  });
+
+  // News ticker
+  fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
+    .then(res => res.text())
     .then(data => {
       const updates = data.trim().split('\n').join('ㅤㅤ•ㅤㅤ');
-      document.getElementById('ticker-text').innerText = updates;
+      document.getElementById('ticker-text').textContent = updates;
+      document.getElementById('ticker-text-duplicate').textContent = updates;
+      document.getElementById('ticker-track').classList.add('animate');
     })
     .catch(err => {
-      document.getElementById('ticker-text').innerText = "Failed to load war updates.";
       console.error(err);
+      document.getElementById('ticker-text').textContent = "Failed to load war updates.";
+      document.getElementById('ticker-text-duplicate').textContent = "Failed to load war updates.";
     });
-  </script>
+  document.body.addEventListener('click', () => {
+    const audio = document.getElementById('bg-music');
+    if (audio.muted) {
+      audio.muted = false;
+      audio.play();
+    }
+  }, { once: true });
+</script>
+
 </body>
 </html>

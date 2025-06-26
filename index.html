@@ -5,9 +5,15 @@
   <title>Ubnixia War Panel</title>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&display=swap" rel="stylesheet" />
   <style>
-    body {
+    html, body {
+      height: 100vh;
+      margin: 0;
+      padding: 0 20px;
+      box-sizing: border-box;
       font-family: 'Libre Caslon Text', serif;
-      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Prevents global scroll */
     }
 
     h1 {
@@ -21,43 +27,55 @@
     }
 
     #title-container {
+      flex-shrink: 0;
       display: flex;
-      align-items: center; /* vertically center the image and title */
-      gap: 12px; /* space between image and title */
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
     }
 
     #quote {
-      position: fixed;       /* fixed position stays on screen while scrolling */
-      top: 20px;             /* distance from top */
-      right: 20px;           /* distance from right */
-      max-width: 300px;      /* optional max width */
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 300px;
       font-size: 20px;
-      font-family: 'Libre Caslon Text', serif;
-      color: #000000;
       background-color: #f4f4f4;
       padding: 10px 15px;
       border-radius: 6px;
       box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      z-index: 1500;         /* make sure it sits above other content */
+      z-index: 1500;
+    }
+
+    #page-container {
+      flex-grow: 1;
+      display: flex;
+      overflow: hidden;
+      margin-top: 20px;
     }
 
     #main-container {
       display: flex;
       gap: 20px;
+      width: 100%;
+      height: 100%;
       align-items: flex-start;
-      margin-top: 20px;
     }
 
     #map-container {
       position: relative;
-      width: 1000px;
+      width: 60%;
       max-width: 100%;
+      height: 100%;
     }
 
     #map-container img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: fill
       display: block;
+      border: 2px solid rgb(231, 231, 231);
+      align-items: center;
     }
 
     .battle-dot-neibelen,
@@ -77,28 +95,35 @@
     .battle-dot-drejdelo { top: 33%; left: 67%; }
     .battle-dot-naevalden { top: 68%; left: 53%; }
 
-    #battle-box {
-      border: 1px solid #ccc;
-      padding: 12px;
-      width: 300px;
-      background-color: #f8f8f8;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    #battle-box h2 {
-      margin-top: 0;
-    }
-
     #info-box {
-      border: 1px solid #ccc;
-      padding: 12px;
-      width: 400px;
+      width: 22%;
+      min-width: 250px;
       background-color: #f8f8f8;
+      padding: 12px;
+      border: 1px solid #ccc;
       font-size: 14px;
       line-height: 1.5;
+      overflow-y: auto;
+      height: 100%;
+      box-sizing: border-box;
+      flex-shrink: 0;
     }
 
+    #battle-box {
+      width: 20%;
+      min-width: 250px;
+      background-color: #f8f8f8;
+      padding: 12px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-y: auto;
+      height: 100%;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    #battle-box h2,
     #info-box h2 {
       margin-top: 0;
     }
@@ -146,7 +171,9 @@
       height: 20px;
     }
 
-    p { margin: 4px 0; }
+    p {
+      margin: 4px 0;
+    }
 
     #counters {
       margin-top: 15px;
@@ -163,6 +190,8 @@
     }
 
     #news-ticker {
+      flex-shrink: 0;
+      height: 20px;
       overflow: hidden;
       background: #222;
       color: white;
@@ -172,6 +201,7 @@
       border-top: 2px solid #444;
       border-bottom: 2px solid #444;
       position: relative;
+      user-select: none;
     }
 
     #ticker-track {
@@ -193,120 +223,122 @@
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
     }
-
-    
   </style>
+
 </head>
 <body>
   <audio id="bg-music" autoplay loop muted>
     <source src="song.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
+
   <div id="title-container">
     <img src="vollensfreit.png" alt="Remnadian War Map" class="vollensfreit"/>
     <h1>The Remnadian War</h1>
   </div>
+
   <div id="quote">
-  <em>"FEDERATE! RISE UP!"</em>
-  </div>
-  <div id="main-container">
-    <div id="map-container">
-      <img src="remnadianwarmap.png" alt="Remnadian War Map" />
-      <div class="battle-dot-neibelen" title="Siege of Neibelen"></div>
-      <div class="battle-dot-drejdelo" title="Charge of Drejdelo"></div>
-      <div class="battle-dot-naevalden" title="Battle of Naevalden"></div>
-    </div>
-
-    <div id="battle-box">
-      <h2>Battle Info</h2>
-      <hr />
-      <p>Click a red dot to view the battle details here.</p>
-    </div>
-
-    <div id="info-box">
-      <h2>The Remnadian War</h2>
-      <hr />
-      <p><strong>Date:</strong> 2/4/1309 – Today</p>
-      <p class="centered"><strong>- Belligerents -</strong></p>
-
-      <div class="info-columns">
-        <div class="side">
-          <p><strong>The Federate Dominions and Surrounding Regions of the Sovereign United Realm.</strong></p>
-          <p>(The United Federation)</p>
-          <img src="unitedfederationflag.png" alt="United Federation Flag" class="fed-flag-icon" />
-        </div>
-        <div class="side">
-          <p><strong>Remnadian League of National Resurgence.</strong></p>
-          <div class="spacer-xs"></div>
-          <p>(The Remnadian Insurgency)</p>
-          <img src="remnadianflag.png" alt="Remnadian Flag" class="flag-icon" />
-        </div>
-      </div>
-
-      <p class="centered"><strong>- Ongoing Battles -</strong></p>
-      <div class="info-columns">
-        <div class="side">
-          <p class="centered"><strong>Federate Offensives</strong></p>
-          <p>Charge of Drejdelo</p>
-        </div>
-        <div class="side">
-          <p class="centered"><strong>Remnadian Offensives</strong></p>
-          <p>Siege of Neibelen</p>
-          <p>Battle of Naevalden</p>
-        </div>
-      </div>
-
-      <p class="centered"><strong>- Casualties -</strong></p>
-      <div class="info-columns">
-        <div class="side">
-          <p class="centered"><strong>Federate Casualties</strong></p>
-          <p>Combatant Casualties: </p>
-          <p><span id="mil-deaths-total">0</span></p>
-          <p>Civilian Casualties: </p>
-          <p><span id="civ-deaths-total">0</span></p>
-        </div>
-        <div class="side">
-          <p class="centered"><strong>Remnadian Casualties</strong></p>
-          <p>Combatant Casualties:</p>
-          <p>~70,000</p>
-          <p>Civilian Casualties:</p>
-          <p>~9,000</p>
-        </div>
-      </div>
-      <p class="centered"><strong>- Strength -</strong></p>
-      <div class="info-columns">
-        <div class="side">
-          The United Federation: <span id="deployments-total"></span>
-        </div>
-        <div class="side">
-          The Remnadian Insurgency: ~170,000
-        </div>
-      </div>
-
-      <div id="counters" style="display: none;">
-        <span id="mil-deaths-neibelen"></span>
-        <span id="mil-deaths-drejdelo"></span>
-        <span id="mil-deaths-naevalden"></span>
-        <span id="mil-deaths-elsewhere"></span>
-        <span id="mil-deaths-total"></span>
-
-        <span id="civ-deaths-neibelen"></span>
-        <span id="civ-deaths-drejdelo"></span>
-        <span id="civ-deaths-naevalden"></span>
-        <span id="civ-deaths-elsewhere"></span>
-        <span id="civ-deaths-total"></span>
-
-        <span id="deployments-neibelen"></span>
-        <span id="deployments-drejdelo"></span>
-        <span id="deployments-naevalden"></span>
-        <span id="deployments-elsewhere"></span>
-        <span id="deployments-total"></span>
-      </div>
-    </div>
+    <em>"FEDERATE! RISE UP!"</em>
   </div>
 
-  <div class="spacer-xs"></div>
-  <div class="spacer-xs"></div>
+  <div id="page-container">
+    <div id="main-container">
+      <div id="map-container">
+        <img src="remnadianwarmap.png" alt="Remnadian War Map";/>
+        <div class="battle-dot-neibelen" title="Siege of Neibelen"></div>
+        <div class="battle-dot-drejdelo" title="Charge of Drejdelo"></div>
+        <div class="battle-dot-naevalden" title="Battle of Naevalden"></div>
+      </div>
+
+      <div id="battle-box">
+        <h2>Battle Info</h2>
+        <hr />
+        <p>Click a red dot to view the battle details here.</p>
+      </div>
+
+      <div id="info-box">
+        <h2>The Remnadian War</h2>
+        <hr />
+        <p><strong>Date:</strong> 2/4/1309 – Today</p>
+        <p class="centered"><strong>- Belligerents -</strong></p>
+
+        <div class="info-columns">
+          <div class="side">
+            <p><strong>The Federate Dominions and Surrounding Regions of the Sovereign United Realm.</strong></p>
+            <p>(The United Federation)</p>
+            <img src="unitedfederationflag.png" alt="United Federation Flag" class="fed-flag-icon" />
+          </div>
+          <div class="side">
+            <p><strong>Remnadian League of National Resurgence.</strong></p>
+            <div class="spacer-xs"></div>
+            <p>(The Remnadian Insurgency)</p>
+            <img src="remnadianflag.png" alt="Remnadian Flag" class="flag-icon" />
+          </div>
+        </div>
+
+        <p class="centered"><strong>- Ongoing Battles -</strong></p>
+        <div class="info-columns">
+          <div class="side">
+            <p class="centered"><strong>Federate Offensives</strong></p>
+            <p>Charge of Drejdelo</p>
+          </div>
+          <div class="side">
+            <p class="centered"><strong>Remnadian Offensives</strong></p>
+            <p>Siege of Neibelen</p>
+            <p>Battle of Naevalden</p>
+          </div>
+        </div>
+
+        <p class="centered"><strong>- Casualties -</strong></p>
+        <div class="info-columns">
+          <div class="side">
+            <p class="centered"><strong>Federate Casualties</strong></p>
+            <p>Combatant Casualties: </p>
+            <p><span id="mil-deaths-total">0</span></p>
+            <p>Civilian Casualties: </p>
+            <p><span id="civ-deaths-total">0</span></p>
+          </div>
+          <div class="side">
+            <p class="centered"><strong>Remnadian Casualties</strong></p>
+            <p>Combatant Casualties:</p>
+            <p>~70,000</p>
+            <p>Civilian Casualties:</p>
+            <p>~9,000</p>
+          </div>
+        </div>
+
+        <p class="centered"><strong>- Strength -</strong></p>
+        <div class="info-columns">
+          <div class="side">
+            The United Federation: <span id="deployments-total"></span>
+          </div>
+          <div class="side">
+            The Remnadian Insurgency: ~170,000
+          </div>
+        </div>
+
+        <div id="counters" style="display: none;">
+          <span id="mil-deaths-neibelen"></span>
+          <span id="mil-deaths-drejdelo"></span>
+          <span id="mil-deaths-naevalden"></span>
+          <span id="mil-deaths-elsewhere"></span>
+          <span id="mil-deaths-total"></span>
+
+          <span id="civ-deaths-neibelen"></span>
+          <span id="civ-deaths-drejdelo"></span>
+          <span id="civ-deaths-naevalden"></span>
+          <span id="civ-deaths-elsewhere"></span>
+          <span id="civ-deaths-total"></span>
+
+          <span id="deployments-neibelen"></span>
+          <span id="deployments-drejdelo"></span>
+          <span id="deployments-naevalden"></span>
+          <span id="deployments-elsewhere"></span>
+          <span id="deployments-total"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="news-ticker">
     <div id="ticker-track">
@@ -342,7 +374,10 @@
 
     const [mil, civ, dep] = [milDeathsTotal, civDeathsTotal, deploymentsTotal];
 
-    const set = (id, val) => document.getElementById(id).textContent = val.toLocaleString();
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = val.toLocaleString();
+    };
 
     for (const type of ['mil', 'civ', 'deployments']) {
       const total = { mil, civ, deployments: dep }[type];
@@ -367,7 +402,9 @@
 
   function showLiveBattleData(battleName, ids, staticInfo) {
     if (currentBattleInterval) clearInterval(currentBattleInterval);
+    
     function updateBox() {
+      const divisionsHTML = staticInfo.divisions.map(div => `<li>${div}</li>`).join('');
       battleBox.innerHTML = `
         <h2>${battleName}</h2>
         <hr>
@@ -375,13 +412,16 @@
         <p><strong>Military Deaths:</strong> ${document.getElementById(ids.mil).textContent}</p>
         <p><strong>Civilian Deaths:</strong> ${document.getElementById(ids.civ).textContent}</p>
         <p><strong>Federate Deployments:</strong> ${document.getElementById(ids.dep).textContent}</p>
-        <p><strong>Mobilized Divisions:</strong> ${staticInfo.commander}</p>
+        <p><strong>Federate Divisions Involved:</strong></p>
+        <ul style="margin-top: -8px; padding-left: 18px;">${divisionsHTML}</ul>
         <p><strong>Summary:</strong> ${staticInfo.summary}</p>
       `;
     }
-    updateBox();
-    currentBattleInterval = setInterval(updateBox, 1000);
-  }
+
+  updateBox();
+  currentBattleInterval = setInterval(updateBox, 1000);
+}
+
 
   document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
     showLiveBattleData("Siege of Neibelen", {
@@ -390,8 +430,14 @@
       dep: "deployments-neibelen"
     }, {
       duration: "45 days",
-      commander: "Gen. Alren Valtros",
-      summary: "A prolonged siege where Remnadian forces surrounded Neibelen to cut off Federate supply lines."
+      divisions: [
+        "9th Federate Armoured Division Aes",
+        "21st Federate Armoured Division Var",
+        "17th Federate Mechanized Division Thar",
+        "3rd Federate Infantry Division Var",
+        "9th Federate Light Infantry Var"
+      ],
+      summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The Federation attempts its best to keep the exclave supplied, though the fight is fierce. Inside the city, protection holds firm after a bloody recapture prior to the encirclement."
     });
   });
 
@@ -402,8 +448,16 @@
       dep: "deployments-drejdelo"
     }, {
       duration: "38 days",
-      commander: "Col. Renn Orlan",
-      summary: "A long lasting battle with more than 23 repeated charges against Remnadian positions, it has been the main focus of Federate plans due to its Nuclear Powerplants, it is the main source of power to the Aestovian Dominion's main southern conscription grounds where more than 75% of all combatants of the entire war were mobilized from. It has been evacuated as soon as the Remnadian forces targeted it."
+      divisions: [
+        "14th Federate Mechanized Division Aes",
+        "4th Federate Infantry Division Aes Twin I",
+        "4th Federate Infantry Division Aes Twin II",
+        "6th Federate Infantry Division Var",
+        "17th Federate Infantry Division Aes",
+        "20th Federate Grenadier Division Thar",
+        "8th Federate Artillery Division Var"
+      ],
+      summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy."
     });
   });
 
@@ -414,10 +468,16 @@
       dep: "deployments-naevalden"
     }, {
       duration: "21 days",
-      commander: "23rd Federate Armoured Division Til, 2nd Federate Infantry Division Aes Twin I, 2nd Federate Infantry Division Aes Twin II, 14th Federate Light Infantry Division Yhe",
-      summary: "A slow-moving trench warfare front with nightime attacks, slow decisive attacks take hold in this battleground, originally an attack to cause a distraction, it became an actual contested region after heavy Remnadian reinforcements arrived, albeit seen as a smaller front compared to the northern struggle."
+      divisions: [
+        "23rd Federate Armoured Division Til",
+        "2nd Federate Infantry Division Aes Twin I",
+        "2nd Federate Infantry Division Aes Twin II",
+        "14th Federate Light Infantry Division Yhe"
+      ],
+      summary: "A trench warfare front with night attacks and slow progression. Originally a diversion, the front became a hot zone after Remnadian reinforcements arrived."
     });
   });
+
 
   // News ticker
   fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
@@ -433,6 +493,8 @@
       document.getElementById('ticker-text').textContent = "Failed to load war updates.";
       document.getElementById('ticker-text-duplicate').textContent = "Failed to load war updates.";
     });
+
+  // Unmute audio on first user click anywhere
   document.body.addEventListener('click', () => {
     const audio = document.getElementById('bg-music');
     if (audio.muted) {
@@ -442,5 +504,4 @@
   }, { once: true });
 </script>
 
-</body>
-</html>
+</

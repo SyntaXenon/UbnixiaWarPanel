@@ -13,7 +13,7 @@
       font-family: 'Libre Caslon Text', serif;
       display: flex;
       flex-direction: column;
-      overflow: hidden; /* Prevents global scroll */
+      overflow: hidden;
     }
 
     h1 {
@@ -72,10 +72,9 @@
     #map-container img {
       width: 100%;
       height: 100%;
-      object-fit: fill
+      object-fit: fill;
       display: block;
       border: 2px solid rgb(231, 231, 231);
-      align-items: center;
     }
 
     .battle-dot-neibelen,
@@ -209,22 +208,12 @@
       width: max-content;
     }
 
-    #ticker-track.animate {
-      animation: scroll-left 60s linear infinite;
-    }
-
     #ticker-text,
     #ticker-text-duplicate {
       white-space: nowrap;
       padding-right: 100px;
     }
-
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
   </style>
-
 </head>
 <body>
   <audio id="bg-music" autoplay loop muted>
@@ -244,7 +233,7 @@
   <div id="page-container">
     <div id="main-container">
       <div id="map-container">
-        <img src="remnadianwarmap.png" alt="Remnadian War Map";/>
+        <img src="remnadianwarmap.png" alt="Remnadian War Map" />
         <div class="battle-dot-neibelen" title="Siege of Neibelen"></div>
         <div class="battle-dot-drejdelo" title="Charge of Drejdelo"></div>
         <div class="battle-dot-naevalden" title="Battle of Naevalden"></div>
@@ -303,7 +292,7 @@
             <p>Combatant Casualties:</p>
             <p>~70,000</p>
             <p>Civilian Casualties:</p>
-            <p>~9,000</p>
+            <p>~1,000</p>
           </div>
         </div>
 
@@ -313,7 +302,7 @@
             The United Federation: <span id="deployments-total"></span>
           </div>
           <div class="side">
-            The Remnadian Insurgency: ~170,000
+            The Remnadian Insurgency: ~120,000
           </div>
         </div>
 
@@ -322,19 +311,16 @@
           <span id="mil-deaths-drejdelo"></span>
           <span id="mil-deaths-naevalden"></span>
           <span id="mil-deaths-elsewhere"></span>
-          <span id="mil-deaths-total"></span>
 
           <span id="civ-deaths-neibelen"></span>
           <span id="civ-deaths-drejdelo"></span>
           <span id="civ-deaths-naevalden"></span>
           <span id="civ-deaths-elsewhere"></span>
-          <span id="civ-deaths-total"></span>
 
           <span id="deployments-neibelen"></span>
           <span id="deployments-drejdelo"></span>
           <span id="deployments-naevalden"></span>
           <span id="deployments-elsewhere"></span>
-          <span id="deployments-total"></span>
         </div>
       </div>
     </div>
@@ -348,18 +334,18 @@
   </div>
 
 <script>
-  const baselineDate = new Date('2025-06-25T03:07:00Z').getTime();
+  const baselineDate = new Date('2026-05-16T03:07:00Z').getTime();
+  const baselineDeploymentsTotal = 70279;
   const baselineMilDeathsTotal = 9294;
-  const baselineCivDeathsTotal = 2394;
-  const baselineDeploymentsTotal = 123279;
+  const baselineCivDeathsTotal = 9000;
 
   const milDeathPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
   const civDeathPercent = { neibelen: 0.75, drejdelo: 0.03, naevalden: 0.10, elsewhere: 0.12 };
   const deploymentPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
 
-  const deploymentInterval = 2.27;
-  const milDeathInterval = 8.38;
-  const civDeathInterval = 16.28;
+  const deploymentInterval = 2.27 * 4;
+  const milDeathInterval = 8.38 * 8;
+  const civDeathInterval = 16.28 * 6;
 
   function currentCount(baselineCount, interval) {
     const now = Date.now();
@@ -376,7 +362,7 @@
 
     const set = (id, val) => {
       const el = document.getElementById(id);
-      if(el) el.textContent = val.toLocaleString();
+      if (el) el.textContent = val.toLocaleString();
     };
 
     for (const type of ['mil', 'civ', 'deployments']) {
@@ -402,7 +388,7 @@
 
   function showLiveBattleData(battleName, ids, staticInfo) {
     if (currentBattleInterval) clearInterval(currentBattleInterval);
-    
+
     function updateBox() {
       const divisionsHTML = staticInfo.divisions.map(div => `<li>${div}</li>`).join('');
       battleBox.innerHTML = `
@@ -418,10 +404,9 @@
       `;
     }
 
-  updateBox();
-  currentBattleInterval = setInterval(updateBox, 1000);
-}
-
+    updateBox();
+    currentBattleInterval = setInterval(updateBox, 1000);
+  }
 
   document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
     showLiveBattleData("Siege of Neibelen", {
@@ -478,15 +463,36 @@
     });
   });
 
-
   // News ticker
+  function startTicker(track) {
+    const pixelsPerSecond = 300; // adjust this — same on every monitor
+    let lastTime = null;
+
+    function step(timestamp) {
+      if (lastTime === null) lastTime = timestamp;
+      const elapsed = timestamp - lastTime;
+      lastTime = timestamp;
+
+      pos -= (pixelsPerSecond * elapsed) / 1000;
+      const halfWidth = track.scrollWidth / 2;
+      if (Math.abs(pos) >= halfWidth) {
+        pos = 0;
+      }
+      track.style.transform = `translateX(${pos}px)`;
+      requestAnimationFrame(step);
+    }
+
+    let pos = 0;
+    requestAnimationFrame(step);
+  }
+
   fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
     .then(res => res.text())
     .then(data => {
       const updates = data.trim().split('\n').join('ㅤㅤ•ㅤㅤ');
       document.getElementById('ticker-text').textContent = updates;
       document.getElementById('ticker-text-duplicate').textContent = updates;
-      document.getElementById('ticker-track').classList.add('animate');
+      startTicker(document.getElementById('ticker-track'));
     })
     .catch(err => {
       console.error(err);
@@ -503,5 +509,5 @@
     }
   }, { once: true });
 </script>
-
-</
+</body>
+</html>

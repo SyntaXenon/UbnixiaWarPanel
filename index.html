@@ -16,9 +16,7 @@
       overflow: hidden;
     }
 
-    h1 {
-      margin: 0;
-    }
+    h1 { margin: 0; }
 
     .vollensfreit {
       max-width: 60px;
@@ -90,9 +88,9 @@
       transform: translate(-50%, -50%);
     }
 
-    .battle-dot-neibelen { top: 25.5%; left: 60%; }
-    .battle-dot-drejdelo { top: 33%; left: 67%; }
-    .battle-dot-naevalden { top: 68%; left: 53%; }
+    .battle-dot-neibelen  { top: 25.5%; left: 60%; }
+    .battle-dot-drejdelo  { top: 33%;   left: 67%; }
+    .battle-dot-naevalden { top: 68%;   left: 53%; }
 
     #info-box {
       width: 22%;
@@ -123,9 +121,7 @@
     }
 
     #battle-box h2,
-    #info-box h2 {
-      margin-top: 0;
-    }
+    #info-box h2 { margin-top: 0; }
 
     .info-columns {
       display: flex;
@@ -144,9 +140,7 @@
       flex-direction: column;
     }
 
-    .centered {
-      text-align: center;
-    }
+    .centered { text-align: center; }
 
     .fed-flag-icon {
       margin-top: auto;
@@ -166,13 +160,9 @@
       margin-right: auto;
     }
 
-    .spacer-xs {
-      height: 20px;
-    }
+    .spacer-xs { height: 20px; }
 
-    p {
-      margin: 4px 0;
-    }
+    p { margin: 4px 0; }
 
     #counters {
       margin-top: 15px;
@@ -184,9 +174,7 @@
       user-select: none;
     }
 
-    #counters > div {
-      margin-bottom: 12px;
-    }
+    #counters > div { margin-bottom: 12px; }
 
     #news-ticker {
       flex-shrink: 0;
@@ -213,13 +201,102 @@
       white-space: nowrap;
       padding-right: 100px;
     }
+
+    /* ── Popup ────────────────────────────────────────── */
+    #popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #popup-overlay.hidden { display: none; }
+
+    #popup-box {
+      background: #f8f8f8;
+      border: 2px solid #888;
+      border-radius: 6px;
+      padding: 24px 28px;
+      max-width: 520px;
+      width: 90%;
+      font-family: 'Libre Caslon Text', serif;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    #popup-box h2 {
+      margin-top: 0;
+      font-size: 20px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    #popup-box p {
+      font-size: 14px;
+      line-height: 1.75;
+      margin: 8px 0;
+    }
+
+    #popup-image {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin: 12px 0;
+      display: block;
+    }
+
+    #popup-image.hidden { display: none; }
+
+    #popup-dismiss {
+      margin-top: 16px;
+      display: block;
+      width: 100%;
+      padding: 9px 0;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Libre Caslon Text', serif;
+      font-size: 14px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+
+    #popup-dismiss:hover { background: #444; }
   </style>
 </head>
 <body>
+
   <audio id="bg-music" autoplay loop muted>
     <source src="song.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
+
+  <!--
+    ═══ DAILY BULLETIN POPUP ══════════════════════════════════════════
+    Edit the <h2> title, <p> text, and img src each day.
+    To SHOW the image:  remove class="hidden" from #popup-image and set src="yourimage.png"
+    To HIDE the image:  add class="hidden" back to #popup-image
+    Press N anywhere on the page to reopen (debug shortcut).
+    ═══════════════════════════════════════════════════════════════════
+  -->
+  <div id="popup-overlay">
+    <div id="popup-box">
+      <h2>&#9889; Latest War Bulletin</h2>
+      <img id="popup-image" src="" alt="Bulletin image" class="hidden" />
+      <p>
+        Federate high command confirms all three front lines are holding.
+        Supply convoys to Neibelen continue under Remnadian fire. The charge
+        at Drejdelo enters its 38th day with no Remnadian breakthrough reported.
+        Minister of Aestovia addresses the public regarding the ongoing conflict.
+      </p>
+      <button id="popup-dismiss">&#8212; Dismiss &#8212;</button>
+    </div>
+  </div>
 
   <div id="title-container">
     <img src="vollensfreit.png" alt="Remnadian War Map" class="vollensfreit"/>
@@ -232,10 +309,11 @@
 
   <div id="page-container">
     <div id="main-container">
+
       <div id="map-container">
         <img src="remnadianwarmap.png" alt="Remnadian War Map" />
-        <div class="battle-dot-neibelen" title="Siege of Neibelen"></div>
-        <div class="battle-dot-drejdelo" title="Charge of Drejdelo"></div>
+        <div class="battle-dot-neibelen"  title="Siege of Neibelen"></div>
+        <div class="battle-dot-drejdelo"  title="Charge of Drejdelo"></div>
         <div class="battle-dot-naevalden" title="Battle of Naevalden"></div>
       </div>
 
@@ -282,9 +360,9 @@
         <div class="info-columns">
           <div class="side">
             <p class="centered"><strong>Federate Casualties</strong></p>
-            <p>Combatant Casualties: </p>
+            <p>Combatant Casualties:</p>
             <p><span id="mil-deaths-total">0</span></p>
-            <p>Civilian Casualties: </p>
+            <p>Civilian Casualties:</p>
             <p><span id="civ-deaths-total">0</span></p>
           </div>
           <div class="side">
@@ -292,7 +370,7 @@
             <p>Combatant Casualties:</p>
             <p>~70,000</p>
             <p>Civilian Casualties:</p>
-            <p>~1,000</p>
+            <p>~9,000</p>
           </div>
         </div>
 
@@ -302,7 +380,7 @@
             The United Federation: <span id="deployments-total"></span>
           </div>
           <div class="side">
-            The Remnadian Insurgency: ~120,000
+            The Remnadian Insurgency: ~170,000
           </div>
         </div>
 
@@ -323,6 +401,7 @@
           <span id="deployments-elsewhere"></span>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -334,31 +413,29 @@
   </div>
 
 <script>
-  const baselineDate = new Date('2026-05-16T03:07:00Z').getTime();
-  const baselineDeploymentsTotal = 70279;
-  const baselineMilDeathsTotal = 9294;
-  const baselineCivDeathsTotal = 9000;
+  // ── Counters ──────────────────────────────────────────────────────
+  const baselineDate             = new Date('2026-05-16T00:00:00Z').getTime();
+  const baselineMilDeathsTotal   = 0;
+  const baselineCivDeathsTotal   = 0;
+  const baselineDeploymentsTotal = 0;
 
-  const milDeathPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
-  const civDeathPercent = { neibelen: 0.75, drejdelo: 0.03, naevalden: 0.10, elsewhere: 0.12 };
+  const milDeathPercent   = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
+  const civDeathPercent   = { neibelen: 0.75, drejdelo: 0.03, naevalden: 0.10, elsewhere: 0.12 };
   const deploymentPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
 
-  const deploymentInterval = 2.27 * 4;
-  const milDeathInterval = 8.38 * 8;
-  const civDeathInterval = 16.28 * 6;
+  const deploymentInterval = 2.27;
+  const milDeathInterval   = 8.38  * 8;
+  const civDeathInterval   = 16.28 * 8;
 
   function currentCount(baselineCount, interval) {
-    const now = Date.now();
-    const elapsedSec = (now - baselineDate) / 1000;
+    const elapsedSec = (Date.now() - baselineDate) / 1000;
     return baselineCount + Math.floor(elapsedSec / interval);
   }
 
   function updateCounters() {
-    const milDeathsTotal = currentCount(baselineMilDeathsTotal, milDeathInterval);
-    const civDeathsTotal = currentCount(baselineCivDeathsTotal, civDeathInterval);
-    const deploymentsTotal = currentCount(baselineDeploymentsTotal, deploymentInterval);
-
-    const [mil, civ, dep] = [milDeathsTotal, civDeathsTotal, deploymentsTotal];
+    const mil = currentCount(baselineMilDeathsTotal,   milDeathInterval);
+    const civ = currentCount(baselineCivDeathsTotal,   civDeathInterval);
+    const dep = currentCount(baselineDeploymentsTotal, deploymentInterval);
 
     const set = (id, val) => {
       const el = document.getElementById(id);
@@ -366,9 +443,8 @@
     };
 
     for (const type of ['mil', 'civ', 'deployments']) {
-      const total = { mil, civ, deployments: dep }[type];
+      const total   = { mil, civ, deployments: dep }[type];
       const percent = { mil: milDeathPercent, civ: civDeathPercent, deployments: deploymentPercent }[type];
-
       let sum = 0;
       for (const loc of ['neibelen', 'drejdelo', 'naevalden']) {
         const val = Math.floor(total * percent[loc]);
@@ -383,6 +459,7 @@
   setInterval(updateCounters, 1000);
   updateCounters();
 
+  // ── Battle box ────────────────────────────────────────────────────
   let currentBattleInterval = null;
   const battleBox = document.getElementById('battle-box');
 
@@ -390,7 +467,7 @@
     if (currentBattleInterval) clearInterval(currentBattleInterval);
 
     function updateBox() {
-      const divisionsHTML = staticInfo.divisions.map(div => `<li>${div}</li>`).join('');
+      const divisionsHTML = staticInfo.divisions.map(d => `<li>${d}</li>`).join('');
       battleBox.innerHTML = `
         <h2>${battleName}</h2>
         <hr>
@@ -399,74 +476,71 @@
         <p><strong>Civilian Deaths:</strong> ${document.getElementById(ids.civ).textContent}</p>
         <p><strong>Federate Deployments:</strong> ${document.getElementById(ids.dep).textContent}</p>
         <p><strong>Federate Divisions Involved:</strong></p>
-        <ul style="margin-top: -8px; padding-left: 18px;">${divisionsHTML}</ul>
+        <ul style="margin-top:-8px;padding-left:18px">${divisionsHTML}</ul>
         <p><strong>Summary:</strong> ${staticInfo.summary}</p>
       `;
     }
-
     updateBox();
     currentBattleInterval = setInterval(updateBox, 1000);
   }
 
   document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
-    showLiveBattleData("Siege of Neibelen", {
-      mil: "mil-deaths-neibelen",
-      civ: "civ-deaths-neibelen",
-      dep: "deployments-neibelen"
-    }, {
-      duration: "45 days",
-      divisions: [
-        "9th Federate Armoured Division Aes",
-        "21st Federate Armoured Division Var",
-        "17th Federate Mechanized Division Thar",
-        "3rd Federate Infantry Division Var",
-        "9th Federate Light Infantry Var"
-      ],
-      summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The Federation attempts its best to keep the exclave supplied, though the fight is fierce. Inside the city, protection holds firm after a bloody recapture prior to the encirclement."
-    });
+    showLiveBattleData("Siege of Neibelen",
+      { mil: "mil-deaths-neibelen", civ: "civ-deaths-neibelen", dep: "deployments-neibelen" },
+      {
+        duration: "45 days",
+        divisions: [
+          "9th Federate Armoured Division Aes",
+          "21st Federate Armoured Division Var",
+          "17th Federate Mechanized Division Thar",
+          "3rd Federate Infantry Division Var",
+          "9th Federate Light Infantry Var"
+        ],
+        summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The Federation attempts its best to keep the exclave supplied, though the fight is fierce. Inside the city, protection holds firm after a bloody recapture prior to the encirclement."
+      }
+    );
   });
 
   document.querySelector('.battle-dot-drejdelo').addEventListener('click', () => {
-    showLiveBattleData("Charge of Drejdelo", {
-      mil: "mil-deaths-drejdelo",
-      civ: "civ-deaths-drejdelo",
-      dep: "deployments-drejdelo"
-    }, {
-      duration: "38 days",
-      divisions: [
-        "14th Federate Mechanized Division Aes",
-        "4th Federate Infantry Division Aes Twin I",
-        "4th Federate Infantry Division Aes Twin II",
-        "6th Federate Infantry Division Var",
-        "17th Federate Infantry Division Aes",
-        "20th Federate Grenadier Division Thar",
-        "8th Federate Artillery Division Var"
-      ],
-      summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy."
-    });
+    showLiveBattleData("Charge of Drejdelo",
+      { mil: "mil-deaths-drejdelo", civ: "civ-deaths-drejdelo", dep: "deployments-drejdelo" },
+      {
+        duration: "38 days",
+        divisions: [
+          "14th Federate Mechanized Division Aes",
+          "4th Federate Infantry Division Aes Twin I",
+          "4th Federate Infantry Division Aes Twin II",
+          "6th Federate Infantry Division Var",
+          "17th Federate Infantry Division Aes",
+          "20th Federate Grenadier Division Thar",
+          "8th Federate Artillery Division Var"
+        ],
+        summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy."
+      }
+    );
   });
 
   document.querySelector('.battle-dot-naevalden').addEventListener('click', () => {
-    showLiveBattleData("Battle of Naevalden", {
-      mil: "mil-deaths-naevalden",
-      civ: "civ-deaths-naevalden",
-      dep: "deployments-naevalden"
-    }, {
-      duration: "21 days",
-      divisions: [
-        "23rd Federate Armoured Division Til",
-        "2nd Federate Infantry Division Aes Twin I",
-        "2nd Federate Infantry Division Aes Twin II",
-        "14th Federate Light Infantry Division Yhe"
-      ],
-      summary: "A trench warfare front with night attacks and slow progression. Originally a diversion, the front became a hot zone after Remnadian reinforcements arrived."
-    });
+    showLiveBattleData("Battle of Naevalden",
+      { mil: "mil-deaths-naevalden", civ: "civ-deaths-naevalden", dep: "deployments-naevalden" },
+      {
+        duration: "21 days",
+        divisions: [
+          "23rd Federate Armoured Division Til",
+          "2nd Federate Infantry Division Aes Twin I",
+          "2nd Federate Infantry Division Aes Twin II",
+          "14th Federate Light Infantry Division Yhe"
+        ],
+        summary: "A trench warfare front with night attacks and slow progression. Originally a diversion, the front became a hot zone after Remnadian reinforcements arrived."
+      }
+    );
   });
 
-  // News ticker
+  // ── News ticker ───────────────────────────────────────────────────
   function startTicker(track) {
-    const pixelsPerSecond = 150; // adjust this — same on every monitor
+    const pixelsPerSecond = 80; // same on every monitor — adjust here
     let lastTime = null;
+    let pos = 0;
 
     function step(timestamp) {
       if (lastTime === null) lastTime = timestamp;
@@ -475,14 +549,12 @@
 
       pos -= (pixelsPerSecond * elapsed) / 1000;
       const halfWidth = track.scrollWidth / 2;
-      if (Math.abs(pos) >= halfWidth) {
-        pos = 0;
-      }
+      if (Math.abs(pos) >= halfWidth) pos = 0;
+
       track.style.transform = `translateX(${pos}px)`;
       requestAnimationFrame(step);
     }
 
-    let pos = 0;
     requestAnimationFrame(step);
   }
 
@@ -500,7 +572,24 @@
       document.getElementById('ticker-text-duplicate').textContent = "Failed to load war updates.";
     });
 
-  // Unmute audio on first user click anywhere
+  // ── Popup ─────────────────────────────────────────────────────────
+  function showPopup() {
+    document.getElementById('popup-overlay').classList.remove('hidden');
+  }
+
+  function hidePopup() {
+    document.getElementById('popup-overlay').classList.add('hidden');
+  }
+
+  showPopup(); // always show on load / refresh
+
+  document.getElementById('popup-dismiss').addEventListener('click', hidePopup);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'n' || e.key === 'N') showPopup(); // debug reopen
+  });
+
+  // ── Unmute audio on first click ───────────────────────────────────
   document.body.addEventListener('click', () => {
     const audio = document.getElementById('bg-music');
     if (audio.muted) {

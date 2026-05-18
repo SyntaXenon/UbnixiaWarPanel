@@ -14,9 +14,29 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: background 0.3s, color 0.3s;
     }
 
-    h1 { margin: 0; }
+    h1 {
+      margin-left: 12px;
+      background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #ff4500);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fire-shift 1.5s ease-in-out infinite alternate,
+                 glow-pulse 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes fire-shift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    @keyframes glow-pulse {
+      from { text-shadow: 0 0 6px #ff4500, 0 0 12px #ff4500; }
+      to   { text-shadow: 0 0 20px #ff6600, 0 0 40px #ff2200, 0 0 60px #ff0000; }
+    }
 
     .vollensfreit {
       max-width: 60px;
@@ -43,6 +63,16 @@
       border-radius: 6px;
       box-shadow: 0 0 8px rgba(0,0,0,0.1);
       z-index: 1500;
+      transition: background 0.3s;
+    }
+
+    #quote em {
+      animation: quote-text-flash 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes quote-text-flash {
+      from { color: black; }
+      to   { color: darkred; }
     }
 
     #page-container {
@@ -104,6 +134,7 @@
       height: 100%;
       box-sizing: border-box;
       flex-shrink: 0;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
 
     #battle-box {
@@ -118,6 +149,7 @@
       height: 100%;
       box-sizing: border-box;
       flex-shrink: 0;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
 
     #battle-box h2,
@@ -138,6 +170,7 @@
       font-size: 13px;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s;
     }
 
     .centered { text-align: center; }
@@ -189,6 +222,7 @@
       border-bottom: 2px solid #444;
       position: relative;
       user-select: none;
+      transition: background 0.3s, border-color 0.3s;
     }
 
     #ticker-track {
@@ -202,7 +236,73 @@
       padding-right: 100px;
     }
 
-    /* ── Popup ────────────────────────────────────────── */
+    /* ── Dark mode toggle — floats above everything, never affects layout ── */
+    #darkmode-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1600;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: background 0.3s;
+    }
+
+    #darkmode-toggle:hover { background: #444; }
+
+    /* ── Dark mode ── */
+    body.dark { background: #1a1a1a; color: #ddd; }
+
+    body.dark #info-box,
+    body.dark #battle-box {
+      background: #2a2a2a;
+      border-color: #444;
+      color: #ddd;
+    }
+
+    body.dark .info-columns .side { background: #333; }
+
+    body.dark #quote {
+      background: #2a2a2a;
+      color: #ddd;
+    }
+
+    body.dark #quote em {
+      animation: quote-text-flash-dark 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes quote-text-flash-dark {
+      from { color: #ddd; }
+      to   { color: #ff4444; }
+    }
+
+    body.dark #news-ticker {
+      background: #111;
+      border-color: #333;
+    }
+
+    body.dark #popup-box {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #ddd;
+    }
+
+    body.dark #popup-box h2 { border-bottom-color: #555; }
+
+    body.dark #popup-dismiss { background: #444; }
+    body.dark #popup-dismiss:hover { background: #666; }
+
+    body.dark #darkmode-toggle { background: #f4f4f4; color: #222; }
+    body.dark #darkmode-toggle:hover { background: #ddd; }
+
+    /* ── Popup ── */
     #popup-overlay {
       position: fixed;
       inset: 0;
@@ -222,9 +322,12 @@
       padding: 24px 28px;
       max-width: 1000px;
       width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
       font-family: 'Libre Caslon Text', serif;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
       font-size: 14px;
+      transition: background 0.3s, color 0.3s;
     }
 
     #popup-box h2 {
@@ -264,6 +367,7 @@
       font-size: 14px;
       cursor: pointer;
       letter-spacing: 0.5px;
+      transition: background 0.3s;
     }
 
     #popup-dismiss:hover { background: #444; }
@@ -303,8 +407,9 @@
       <p>CIVILIAN EVACUATION NETWORKS ARE FUNCTIONAL. ALL CITIZENS IN THE REMNADIAN WAR VULNERABILITY ZONES IN THE FEDERATE ELECTORAL DOMINIONS OF AESTOVIA AND PLAETONIA ARE TO REPORT TO THE NEAREST TEMPORARY RELOCATION / EVACUATION CENTERS.</p>
       <p>ALL FEDERATE FAMILIES AFFECTED WILL BE REIMBURSED FOR ANY LOSS OF LIFE, PROPERTY AND DAMAGES.</p>
       <hr>
-      <p>TEMPORARY POWER SOURCES ARE CURRENTLY BEING PROVIDED IN THE CITIES THAT ARE DEPENDENT ON THE DREJDELO POWERPLANT, BUT ALL FAMILIES IN THOSE AREAS ARE HIGHLY ENCOURAGED TO FIND ALTERNATE POWER SOURCES IN THE FORMS OF SOLAR PANELS, GENERATORS OR LONG LASTING BATTERIES, A COUNTER-OFFENSIVE ON DREJDELO FOR THE REESTABLISHMENT OF NOMINAL POWER DELIVERY IS OF UPMOST PRIORITY TO THE HIGH COMMAND.</p>
+      <p>TEMPORARY POWER SOURCES ARE CURRENTLY BEING PROVIDED IN THE CITIES THAT ARE DEPENDENT ON THE DREJDELO POWERPLANT, BUT ALL FAMILIES IN THOSE AREAS ARE HIGHLY ENCOURAGED TO FIND ALTERNATE POWER SOURCES IN THE FORMS OF SOLAR PANELS, GENERATORS OR LONG LASTING BATTERIES. A COUNTER-OFFENSIVE ON DREJDELO FOR THE REESTABLISHMENT OF NOMINAL POWER DELIVERY IS OF UPMOST PRIORITY TO THE HIGH COMMAND.</p>
       <hr>
+      <p>NOMINAL STATE FAILURE CONFIRMED. THE FULL FNS RECLAMATION ECHELON HAS BEEN FULLY DEPLOYED ACROSS ALL ACTIVE THEATERS.</p>
       <p>ALL RESERVE DIVISIONS ARE TO IMMEDIATELY REDEPLOY.</p>
       <p>ALL COMMANDS ARE AUTHORIZED TO INITIATE CONTINGENCY BLACK.</p>
       <hr>
@@ -315,8 +420,11 @@
     </div>
   </div>
 
+  <!-- Fixed above everything, outside the flex layout entirely -->
+  <button id="darkmode-toggle">🌙</button>
+
   <div id="title-container">
-    <img src="vollensfreit.png" alt="Remnadian War Map" class="vollensfreit"/>
+    <img id="logo" src="vollensfreit.png" alt="Vollensfreit Logo" class="vollensfreit"/>
     <h1>The Remnadian War</h1>
   </div>
 
@@ -513,7 +621,7 @@
           "3rd Federate Infantry Division Var",
           "9th Federate Light Infantry Var"
         ],
-        summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The city has falled and large evacuation operations have been taken place succcesfully by the Federation, the Federation plans a counter-offensive  to liberate the city in the near future, clashes close to the current fronts continue to rage."
+        summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The city has fallen and large evacuation operations have taken place successfully by the Federation. The Federation plans a counter-offensive to liberate the city in the near future, clashes close to the current fronts continue to rage."
       }
     );
   });
@@ -532,7 +640,7 @@
           "20th Federate Grenadier Division Thar",
           "8th Federate Artillery Division Var"
         ],
-        summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy. The city has fallen to the Remnadians, cities that are dependent on Drejdelo's powerplants are currently being supplied in other temporary ways but are bound to collapse soon, therefore the Federation will attempt a counter-offensive soon in order to restore order in the nearby regions. "
+        summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy. The city has fallen to the Remnadians. Cities dependent on Drejdelo's powerplants are currently being supplied by temporary means but are bound to collapse soon — a counter-offensive is imminent."
       }
     );
   });
@@ -555,7 +663,7 @@
 
   // ── News ticker ───────────────────────────────────────────────────
   function startTicker(track) {
-    const pixelsPerSecond = 80; // same on every monitor — adjust here
+    const pixelsPerSecond = 80;
     let lastTime = null;
     let pos = 0;
 
@@ -598,17 +706,33 @@
     document.getElementById('popup-overlay').classList.add('hidden');
   }
 
-  showPopup(); // always show on load / refresh
+  showPopup();
 
-  document.getElementById('popup-dismiss').addEventListener('click', hidePopup);
+  document.getElementById('popup-dismiss').addEventListener('click', () => {
+    hidePopup();
+    const audio = document.getElementById('bg-music');
+    audio.muted = false;
+    audio.play();
+  });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'n' || e.key === 'N') showPopup(); // debug reopen
+    if (e.key === 'n' || e.key === 'N') showPopup();
+  });
+
+  // ── Dark mode ─────────────────────────────────────────────────────
+  const logo   = document.getElementById('logo');
+  const toggle = document.getElementById('darkmode-toggle');
+
+  toggle.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark');
+    toggle.textContent = isDark ? '☀️' : '🌙';
+    logo.src = isDark ? 'vollensfreit_light.png' : 'vollensfreit.png';
   });
 
   // ── Unmute audio on first click ───────────────────────────────────
   document.body.addEventListener('click', () => {
     const audio = document.getElementById('bg-music');
+    audio.volume = 0.4; // 0.0 = silent, 1.0 = full — adjust here
     if (audio.muted) {
       audio.muted = false;
       audio.play();

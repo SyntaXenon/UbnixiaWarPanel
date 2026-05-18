@@ -220,10 +220,11 @@
       border: 2px solid #888;
       border-radius: 6px;
       padding: 24px 28px;
-      max-width: 520px;
+      max-width: 1000px;
       width: 90%;
       font-family: 'Libre Caslon Text', serif;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+      font-size: 14px;
     }
 
     #popup-box h2 {
@@ -235,14 +236,13 @@
     }
 
     #popup-box p {
-      font-size: 14px;
-      line-height: 1.75;
-      margin: 8px 0;
+      margin: 2px 0;
+      line-height: 1.7;
     }
 
     #popup-image {
       width: 100%;
-      max-height: 220px;
+      max-height: 230px;
       object-fit: cover;
       border-radius: 4px;
       margin: 12px 0;
@@ -287,29 +287,30 @@
   <div id="popup-overlay">
     <div id="popup-box">
       <h2>FEDERATE COMMAND DISTRESS TRANSMISSION</h2>
-      <img id="popup-image" src="" alt="Bulletin image" class="hidden" />
-      <p>
-        THE FRONTS HAVE COLLAPSED.
-
-        NEIBELEN HAS FALLEN AFTER PROLONGED ENCIRCLEMENT.
-        DREJDELO HAS BEEN OVERRUN.
-        NAEVALDEN DEFENSIVE LINES HAVE FAILED.
-
-        MULTIPLE BREAKTHROUGHS CONFIRMED ACROSS THEATER COMMAND.
-
-        REMNADIAN FORCES HAVE PENETRATED DEEP INTO FEDERATE TERRITORY.
-        RETREATING UNITS REPORT TOTAL COMMUNICATION FAILURE IN SEVERAL REGIONS.
-        CIVILIAN EVACUATION NETWORKS ARE FUNCTIONAL, ALL CITZENS IN THE REMNADIAN WAR VULNERABILITY ZONES IN THE FEDERATE ELECTORAL DOMINIONS OF AESTOVIA AND PLAETONIA ARE TO REPORT TO THE NEAREST TEMPORARY RELOCATION / EVACUATION CENTERS.
-        ALL FEDERATE FAMILIES AFFECTED WILL BE REIMBURSED FOR ANY LOSS OF LIFE, PROPERTY AND DAMAGES.
-
-        ALL RESERVE DIVISIONS ARE TO IMMEDIATELY REDEPLOY.
-        ALL COMMANDS ARE AUTHORIZED TO INITIATE CONTINGENCY BLACK.
-
-        THE FEDERATE GOVERNMENT HUMBLY ASKS FOR PRAYERS IN THIS TIME OF DIRE NEED.
-
-        THIS IS A FULL STRATEGIC FAILURE EVENT.
-        
-      </p>
+      <h0>5/18/26</h0>
+      <hr>
+      <img id="popup-image" src="" alt="Bulletin image" class="hidden"/>
+      <p>THE FRONTS HAVE COLLAPSED.</p>
+      <hr>
+      <p>NEIBELEN HAS FALLEN AFTER PROLONGED ENCIRCLEMENT.</p>
+      <p>DREJDELO HAS BEEN OVERRUN.</p>
+      <p>NAEVALDEN DEFENSIVE LINES HAVE FAILED.</p>
+      <hr>
+      <p>MULTIPLE BREAKTHROUGHS CONFIRMED ACROSS THEATER COMMAND.</p>
+      <p>REMNADIAN FORCES HAVE PENETRATED DEEP INTO FEDERATE TERRITORY.</p>
+      <p>RETREATING UNITS REPORT TOTAL COMMUNICATION FAILURE IN SEVERAL REGIONS.</p>
+      <hr>
+      <p>CIVILIAN EVACUATION NETWORKS ARE FUNCTIONAL. ALL CITIZENS IN THE REMNADIAN WAR VULNERABILITY ZONES IN THE FEDERATE ELECTORAL DOMINIONS OF AESTOVIA AND PLAETONIA ARE TO REPORT TO THE NEAREST TEMPORARY RELOCATION / EVACUATION CENTERS.</p>
+      <p>ALL FEDERATE FAMILIES AFFECTED WILL BE REIMBURSED FOR ANY LOSS OF LIFE, PROPERTY AND DAMAGES.</p>
+      <hr>
+      <p>TEMPORARY POWER SOURCES ARE CURRENTLY BEING PROVIDED IN THE CITIES THAT ARE DEPENDENT ON THE DREJDELO POWERPLANT, BUT ALL FAMILIES IN THOSE AREAS ARE HIGHLY ENCOURAGED TO FIND ALTERNATE POWER SOURCES IN THE FORMS OF SOLAR PANELS, GENERATORS OR LONG LASTING BATTERIES, A COUNTER-OFFENSIVE ON DREJDELO FOR THE REESTABLISHMENT OF NOMINAL POWER DELIVERY IS OF UPMOST PRIORITY TO THE HIGH COMMAND.</p>
+      <hr>
+      <p>ALL RESERVE DIVISIONS ARE TO IMMEDIATELY REDEPLOY.</p>
+      <p>ALL COMMANDS ARE AUTHORIZED TO INITIATE CONTINGENCY BLACK.</p>
+      <hr>
+      <p>THE FEDERATE GOVERNMENT HUMBLY ASKS FOR PRAYERS IN THIS TIME OF DIRE NEED.</p>
+      <hr>
+      <p>THIS IS A FULL STRATEGIC FAILURE EVENT.</p>
       <button id="popup-dismiss">&#8212; Dismiss &#8212;</button>
     </div>
   </div>
@@ -436,12 +437,12 @@
   const baselineDeploymentsTotal = 0;
 
   const milDeathPercent   = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
-  const civDeathPercent   = { neibelen: 0.75, drejdelo: 0.03, naevalden: 0.10, elsewhere: 0.12 };
+  const civDeathPercent   = { neibelen: 0.35, drejdelo: 0.43, naevalden: 0.19, elsewhere: 0.03 };
   const deploymentPercent = { neibelen: 0.30, drejdelo: 0.48, naevalden: 0.19, elsewhere: 0.03 };
 
   const deploymentInterval = 2.27;
-  const milDeathInterval   = 8.38  * 8;
-  const civDeathInterval   = 16.28 * 8;
+  const milDeathInterval   = 8.38  * 4;
+  const civDeathInterval   = 16.28 * 1.5;
 
   function currentCount(baselineCount, interval) {
     const elapsedSec = (Date.now() - baselineDate) / 1000;
@@ -501,7 +502,7 @@
   }
 
   document.querySelector('.battle-dot-neibelen').addEventListener('click', () => {
-    showLiveBattleData("Siege of Neibelen",
+    showLiveBattleData("Siege of Neibelen (Remnadian Control)",
       { mil: "mil-deaths-neibelen", civ: "civ-deaths-neibelen", dep: "deployments-neibelen" },
       {
         duration: "45 days",
@@ -512,7 +513,7 @@
           "3rd Federate Infantry Division Var",
           "9th Federate Light Infantry Var"
         ],
-        summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The Federation attempts its best to keep the exclave supplied, though the fight is fierce. Inside the city, protection holds firm after a bloody recapture prior to the encirclement."
+        summary: "A prolonged siege where Remnadian forces surrounded the Aestovian city of Neibelen which is surrounded by ethnically Remnadian cities. The city has falled and large evacuation operations have been taken place succcesfully by the Federation, the Federation plans a counter-offensive  to liberate the city in the near future, clashes close to the current fronts continue to rage."
       }
     );
   });
@@ -531,7 +532,7 @@
           "20th Federate Grenadier Division Thar",
           "8th Federate Artillery Division Var"
         ],
-        summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy."
+        summary: "A long-lasting battle with over 23 repeated charges against Remnadian positions. A key strategic point due to its nuclear power plants and conscription relevance, the city was evacuated after being targeted by the enemy. The city has fallen to the Remnadians, cities that are dependent on Drejdelo's powerplants are currently being supplied in other temporary ways but are bound to collapse soon, therefore the Federation will attempt a counter-offensive soon in order to restore order in the nearby regions. "
       }
     );
   });
@@ -547,7 +548,7 @@
           "2nd Federate Infantry Division Aes Twin II",
           "14th Federate Light Infantry Division Yhe"
         ],
-        summary: "A trench warfare front with night attacks and slow progression. Originally a diversion, the front became a hot zone after Remnadian reinforcements arrived."
+        summary: "A trench warfare front with night attacks and slow progression. Originally a diversion, the front became a hot zone after Remnadian reinforcements arrived. Currently in Remnadian hands."
       }
     );
   });

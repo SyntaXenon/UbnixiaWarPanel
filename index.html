@@ -692,7 +692,7 @@
   fetch('https://raw.githubusercontent.com/SyntaXenon/UbnixiaWarPanel/main/newsticket.txt')
     .then(res => res.text())
     .then(data => {
-      const updates = data.trim().split('\n').join('ㅤㅤ•ㅤㅤ');
+      const updates = data.trim().split('\n').join(' ㅤㅤ •ㅤㅤ  ');
       document.getElementById('ticker-text').textContent = updates;
       document.getElementById('ticker-text-duplicate').textContent = updates;
       startTicker(document.getElementById('ticker-track'));
